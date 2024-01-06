@@ -32,7 +32,7 @@ export default {
       filterOptions: { onlyInView: true, onlyOneDistrictPerCity: true },
       // stationsArray: null,
       stationAirQuality: null,
-      error: null,
+      error: null, //vllt irrelevant
     };
   },
 
