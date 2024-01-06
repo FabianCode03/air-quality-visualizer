@@ -7,6 +7,7 @@ import "leaflet/dist/leaflet.css";
 import cities from "../assets/Städtedaten_2.json";
 import stations from "../assets/stations.json";
 import L, { map } from "leaflet";
+import airqualityAPI from "../../services/airqualityAPI";
 
 export default {
   // The component's name:
@@ -30,11 +31,14 @@ export default {
       filteredCities: null,
       filterOptions: { onlyInView: true, onlyOneDistrictPerCity: true },
       // stationsArray: null,
+      stationAirQuality: null,
+      error: null,
     };
   },
 
   mounted() {
     this.initMap();
+    //handle map moved auf am Anfang laden
   },
 
   beforeUnmount() {
@@ -44,7 +48,20 @@ export default {
   },
 
   methods: {
-    handleMapMoved() {
+    //todo empfange daten von airqualityAPI
+    async getAirQualityViaStation() {
+      try {
+        const response = await airqualityAPI.getAirqualityAPI();
+        this.stationAirQuality = response.count;
+        // Hier kannst du die Daten verwenden oder weiterverarbeiten
+        console.log(this.stationAirQuality); // Beispiel: Logge die empfangenen Daten in der Konsole
+      } catch (error) {
+        // Fehlerbehandlung, falls die Anfrage fehlschlägt
+        console.error("Error fetching air quality data:", error);
+      }
+    },
+
+    async handleMapMoved() {
       this.getCurrentMapBounds();
 
       // this.getFilteredCities(this.filterOptions);
@@ -55,7 +72,9 @@ export default {
 
       this.addMarkersToStations(stationsArray);
 
-      // this.logInfo();
+      //this.logInfo();
+
+      await this.getAirQualityViaStation();
     },
 
     logInfo() {
@@ -76,7 +95,7 @@ export default {
     // },
 
     addMarkersToCities(citiesArray) {
-      citiesArray.forEach(city => {
+      citiesArray.forEach((city) => {
         const marker = L.marker([city.Breitengrad, city.Längengrad])
           .addTo(this.mapInstance)
           .bindPopup(city.Ort);
@@ -87,7 +106,7 @@ export default {
       let presentMarkers = [];
 
       const markersToAdd = this.getMarkersToAdd(stationsArray, presentMarkers);
-      markersToAdd.forEach(station => {
+      markersToAdd.forEach((station) => {
         const marker = L.marker([station[8], station[7]]).addTo(
           this.mapInstance
         );
@@ -97,7 +116,7 @@ export default {
 
     getMarkersToAdd(stationsArray, presentMarkers) {
       // this.checkIfMarkerAdded(stationsArray, presentMarkers);
-      const markersToAdd = stationsArray.filter(station => {
+      const markersToAdd = stationsArray.filter((station) => {
         if (presentMarkers.includes(station[0])) {
           if (
             station[8] <= this.currentMapBounds.A.lat &&
@@ -121,7 +140,7 @@ export default {
 
     removeMarker(marker, presentMarkers) {
       presentMarkers = presentMarkers.filter(
-        existingMarker => existingMarker !== marker
+        (existingMarker) => existingMarker !== marker
       );
       marker.remove();
     },
@@ -136,7 +155,7 @@ export default {
 
       //filters out cities that are not in the viewable window
       if (onlyInView) {
-        filteredCities = filteredCities.filter(city => {
+        filteredCities = filteredCities.filter((city) => {
           return (
             city.Breitengrad <= this.currentMapBounds.A.lat &&
             city.Breitengrad >= this.currentMapBounds.D.lat &&
@@ -149,7 +168,7 @@ export default {
       // filters out duplicate cities with different postal codes
       if (onlyOneDistrictPerCity) {
         const uniqueCities = {};
-        filteredCities = filteredCities.filter(city => {
+        filteredCities = filteredCities.filter((city) => {
           if (!uniqueCities[city.Ort]) {
             uniqueCities[city.Ort] = true;
             return true;
