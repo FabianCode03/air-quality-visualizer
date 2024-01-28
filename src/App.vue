@@ -84,7 +84,6 @@ export default {
     },
 
     handleEmptyDataMarkerChanged(isEmptyDataCircle) {
-      console.log("isEmptyDataCircle", isEmptyDataCircle);
       this.isEmptyDataCircle = isEmptyDataCircle;
     },
   },
