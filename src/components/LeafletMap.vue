@@ -4,12 +4,11 @@
 
 <script>
 import "leaflet/dist/leaflet.css";
-import L, { map, marker } from "leaflet";
+import L from "leaflet";
 import UmweltbundesamtService from "../services/UmweltbundesamtService";
 import germanBorders from "../assets/germany.json";
 
 export default {
-  // The component's name:
   name: "LeafletMap",
 
   props: {
@@ -113,7 +112,6 @@ export default {
   async mounted() {
     this.initMap();
     await UmweltbundesamtService.fetchAndStoreAllData("de", "code");
-    // UmweltbundesamtService.logAllMembers();
     this.stationsArray = UmweltbundesamtService.stations;
   },
 
@@ -158,8 +156,6 @@ export default {
       const newFilteredStations =
         this.filterAirQualityIndexStations(filteredStations);
 
-      console.log("newFilteredStations", newFilteredStations);
-
       newFilteredStations.forEach((station) => {
         const latitude = station[8];
         const longitude = station[7];
@@ -193,7 +189,6 @@ export default {
         networkCentralCoordinates[2],
         {}
       );
-      console.log("networkCentralCoordinates", networkCentralCoordinates);
     },
 
     reAddCirclesToMap() {
@@ -213,7 +208,6 @@ export default {
           features: [feature],
         };
       } else {
-        console.log(`Bundesland "${network}" nicht gefunden.`);
         return null;
       }
     },

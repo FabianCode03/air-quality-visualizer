@@ -36,7 +36,6 @@
 
 <script>
 export default {
-  // The component's name:
   name: "BottomBar",
 
   emits: ["selectedAirQualityIndicesArray", "isEmptyDataMarker"],
@@ -92,10 +91,6 @@ export default {
       this.selectedAirQualityIndexArray = Array.from(
         { length: upper - lower + 1 },
         (_, index) => lower + index
-      );
-      console.log(
-        "selectedAirQualityIndexArray",
-        this.selectedAirQualityIndexArray
       );
       this.$emit(
         "selectedAirQualityIndicesArray",

@@ -74,17 +74,12 @@ export default {
     },
 
     handleFiltersChanged(filterOptions) {
-      console.log("filter changed", filterOptions);
       this.filterOptions = filterOptions;
     },
 
     handleSelectedAirQualityIndicesArrayChanged(
       selectedAirQualityIndicesArray
     ) {
-      console.log(
-        "selectedAirQualityIndicesArray",
-        selectedAirQualityIndicesArray
-      );
       this.selectedAirQualityIndicesArray = selectedAirQualityIndicesArray;
     },
 

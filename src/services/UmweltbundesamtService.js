@@ -1,5 +1,4 @@
 import axios from "axios";
-import { inferRuntimeType } from "vue/compiler-sfc";
 
 class UmweltbundesamtService {
   constructor() {
@@ -155,7 +154,7 @@ class UmweltbundesamtService {
 
   getTransgressions(year, lang, index) {
     return this.api.get(
-      `/transgressions/json?component=1&year=${year}&lang=${lang}&index=${index}` //transgressions/json?component=1&year=2019&lang=de&index=code"
+      `/transgressions/json?component=1&year=${year}&lang=${lang}&index=${index}`
     );
   }
 

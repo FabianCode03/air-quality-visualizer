@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="pa-3"
+    class="pa-3 custom-container"
     :title="title"
     :subtitle="subtitle"
     max-width="550px"
@@ -113,7 +113,7 @@
         </v-container>
       </v-window-item>
 
-      <!-- Ansicht Stationen -->
+      <!-- Ansicht Stationen (nicht implementiert)-->
       <v-window-item value="two">
         <v-row>
           <v-col cols="6">
@@ -183,7 +183,7 @@
         ></v-autocomplete>
       </v-window-item>
 
-      <!-- Ansicht Alle Filter -->
+      <!-- Ansicht Alle Filter (nur zu develpoment Zwecken)-->
       <v-window-item value="three"
         ><VueDatePicker
           v-model="apiQueryOptions.startDate"
@@ -295,7 +295,6 @@ import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 
 export default {
-  // The component's name:
   name: "OptionsDisplay",
 
   emits: ["airQualityDataFetched", "filtersChanged"],
@@ -320,7 +319,6 @@ export default {
 
   async mounted() {
     await UmweltbundesamtService.fetchAndStoreAllData("de", "code");
-    // UmweltbundesamtService.logAllMembers();
     this.getMembersFromUBA();
     this.extractInputValues();
     this.setChipGroupValues();
@@ -423,7 +421,6 @@ export default {
     },
 
     async validateAndSentData() {
-      // mache eine Kopie von apiQueryOptions um die Werte zu verändern
       const sendOptions = { ...this.apiQueryOptions };
 
       // check if all required fields are filled
@@ -463,7 +460,6 @@ export default {
           return [key, values];
         })
       );
-      console.log(airQualityData);
       // emit the data to App.vue
       this.$emit("airQualityDataFetched", airQualityData);
     },
@@ -472,6 +468,16 @@ export default {
 </script>
 
 <style scoped>
+.custom-container {
+  clip-path: polygon(
+    10px 0,
+    100% 0,
+    100% calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    0 100%,
+    0 10px
+  );
+}
 .input-slot-image {
   height: 20px;
   opacity: 0.5;

@@ -34,7 +34,6 @@
 import UmweltbundesamtService from "../services/UmweltbundesamtService";
 
 export default {
-  // The component's name:
   name: "DetailsDisplay",
 
   props: {

@@ -11,11 +11,10 @@ import "vuetify/styles";
 // Composables
 import { createVuetify } from "vuetify";
 
-// Vuetify-Instanz erstellen und konfigurieren
 const vuetify = createVuetify({
   icons: {
-    iconfont: "mdiSvg", // Dies setzt das Icon-Font auf die Material Design Icons
+    iconfont: "mdiSvg",
   },
 });
 
-export default vuetify; // Exportiere die konfigurierte Vuetify-Instanz
+export default vuetify;
